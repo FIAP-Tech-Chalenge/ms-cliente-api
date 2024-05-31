@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -35,6 +37,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -58,6 +62,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -66,7 +72,7 @@ jobs:
           distribution: 'temurin'
 
       - name: SonarCloud analysis
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }} -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }} -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
       - name: Install jq and bc
         run: sudo apt-get install -y jq bc
@@ -76,7 +82,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           # Fetch the coverage from SonarQube
-          COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=${{ secrets.SONAR_PROJECTKEY }}&metricKeys=coverage" | jq -r '.component.measures[0].value')
+          COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=FIAP-Tech-Chalenge_tech-challenge&metricKeys=coverage" | jq -r '.component.measures[0].value')
 
           # Check if coverage is less than 80%
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
@@ -90,6 +96,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -106,4 +114,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-cliente-api:latest
+          tags: wolwer/ms-admin-api:latest
