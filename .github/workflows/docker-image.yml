@@ -66,7 +66,7 @@ jobs:
           distribution: 'temurin'
 
       - name: SonarCloud analysis
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secret.SONAR_PROJECTKEY }} -Dsonar.organization=${{ secret.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }} -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       - name: Install jq and bc
         run: sudo apt-get install -y jq bc
@@ -76,7 +76,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           # Fetch the coverage from SonarQube
-          COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=${{ secret.SONAR_PROJECTKEY }}&metricKeys=coverage" | jq -r '.component.measures[0].value')
+          COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=${{ secrets.SONAR_PROJECTKEY }}&metricKeys=coverage" | jq -r '.component.measures[0].value')
 
           # Check if coverage is less than 80%
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
