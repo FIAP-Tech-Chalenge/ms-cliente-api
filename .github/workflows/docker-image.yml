@@ -74,9 +74,13 @@ jobs:
       - name: Check code coverage
         run: |
           COVERAGE=$(jq '.component.measures[] | select(.metric == "coverage") | .value' sonar-report.json)
+          if [ -z "$COVERAGE" ]; then
+          echo "No coverage data found"
+          exit 1
+          fi
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-            echo "Code coverage is less than 80%"
-            exit 1
+          echo "Code coverage is less than 80%"
+          exit 1
           fi
 
   deploy-to-dockerhub:
