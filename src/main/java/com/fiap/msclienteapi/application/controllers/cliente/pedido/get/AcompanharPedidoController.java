@@ -1,0 +1,61 @@
+package com.fiap.msclienteapi.application.controllers.cliente.pedido.get;
+
+import com.fiap.msclienteapi.application.response.GenericResponse;
+import com.fiap.msclienteapi.application.response.PresenterResponse;
+import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
+import com.fiap.msclienteapi.domain.output.pedido.BuscaPedidoOutput;
+import com.fiap.msclienteapi.domain.presenters.cliente.pedido.GetPedidoPresenter;
+import com.fiap.msclienteapi.domain.useCase.pedido.BuscaPedidoPorUuidUseCase;
+import com.fiap.msclienteapi.infra.adpter.repository.pedido.BuscarPedidoRepository;
+import com.fiap.msclienteapi.infra.dependecy.StringValidatorsAdapter;
+import com.fiap.msclienteapi.infra.dependecy.resolvers.RequestClienteResolver;
+import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
+import com.fiap.msclienteapi.infra.repository.PedidoRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("cliente/pedido")
+public class AcompanharPedidoController {
+
+    private final PedidoRepository pedidoRepository;
+    private final PedidoProdutoRepository pedidoProdutoRepository;
+
+    @GetMapping("/{pedidoUuid}")
+    @Operation(tags = {"cliente"}, parameters = {
+            @Parameter(name = "Bearer", description = "Authorization header", in = ParameterIn.HEADER)
+    })
+    public ResponseEntity<Object> getPedido(
+            @PathVariable UUID pedidoUuid,
+            @RequestParam(name = "cliente_uuid", required = false) UUID queryParamClientUuid,
+            HttpServletRequest request
+    ) throws Exception {
+        String authorizationHeader = request.getHeader("Bearer");
+
+        String uuidClientResolved = RequestClienteResolver.resolve(authorizationHeader, queryParamClientUuid);
+        if (!StringValidatorsAdapter.isValidUUID(uuidClientResolved)) {
+            throw new Exception("Token de identificação do cliente não encontrado");
+        }
+
+        BuscaPedidoPorUuidUseCase useCase = new BuscaPedidoPorUuidUseCase(new BuscarPedidoRepository(pedidoRepository, pedidoProdutoRepository));
+        useCase.execute(pedidoUuid, UUID.fromString(uuidClientResolved));
+        OutputInterface outputInterface = useCase.getBuscaPedidoOutput();
+        if (outputInterface.getOutputStatus().getCode() != 200) {
+            return new GenericResponse().response(outputInterface);
+        }
+
+        GetPedidoPresenter presenter = new GetPedidoPresenter((BuscaPedidoOutput) outputInterface);
+        return new PresenterResponse().response(presenter);
+    }
+}
+
+
