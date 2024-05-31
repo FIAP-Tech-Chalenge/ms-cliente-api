@@ -12,8 +12,9 @@ import java.util.UUID;
 
 public class MercadoPagoIntegration implements PagamentoQrCodeInterface {
     private final HttpAdapterInterface httpAdapterInterface;
-    private String urlGateway = "";
+    private final String urlGateway = "";
     private final Map<String, String> headers;
+
     public MercadoPagoIntegration(HttpAdapterInterface httpAdapterInterface) {
         this.httpAdapterInterface = httpAdapterInterface;
         this.headers = new HashMap<>();
