@@ -52,7 +52,6 @@ public class CriaPedidoRepository implements PedidoInterface {
                 pedidoProduto.setValor(produto.getValor());
                 pedidoProduto.setCategoria(produto.getCategoria());
                 pedidoProdutoRepository.save(pedidoProduto);
-                produtoRepository.save(produtoModel);
             }
         }
 
