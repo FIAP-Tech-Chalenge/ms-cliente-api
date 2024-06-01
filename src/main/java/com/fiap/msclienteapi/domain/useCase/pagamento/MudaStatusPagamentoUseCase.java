@@ -5,21 +5,28 @@ import com.fiap.msclienteapi.domain.enums.pedido.StatusPagamento;
 import com.fiap.msclienteapi.domain.exception.pedido.PedidoNaoEncontradoException;
 import com.fiap.msclienteapi.domain.gateway.pedido.BuscaPedidoInterface;
 import com.fiap.msclienteapi.domain.gateway.pedido.PedidoInterface;
+import com.fiap.msclienteapi.domain.gateway.producers.PagamentoProducerInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputError;
 import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
 import com.fiap.msclienteapi.domain.output.pagamento.StatusPagamentoOutput;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@RequiredArgsConstructor
 @Getter
+@Setter
 public class MudaStatusPagamentoUseCase {
     private final BuscaPedidoInterface buscaPedido;
     private final PedidoInterface pedidoInterface;
     private OutputInterface buscaPedidoOutput;
+    private PagamentoProducerInterface pagamentoProducerInterface;
+
+    public MudaStatusPagamentoUseCase(BuscaPedidoInterface buscaPedido, PedidoInterface pedidoInterface) {
+        this.buscaPedido = buscaPedido;
+        this.pedidoInterface = pedidoInterface;
+    }
 
     public void execute(UUID uuid, StatusPagamento statusPagamento) {
         try {
@@ -40,6 +47,10 @@ public class MudaStatusPagamentoUseCase {
                     e.getMessage(),
                     new OutputStatus(500, "Internal Server Error", "Erro no servidor")
             );
+        } finally {
+            if (this.pagamentoProducerInterface != null) {
+                this.pagamentoProducerInterface.send(this.buscaPedidoOutput);
+            }
         }
     }
 }

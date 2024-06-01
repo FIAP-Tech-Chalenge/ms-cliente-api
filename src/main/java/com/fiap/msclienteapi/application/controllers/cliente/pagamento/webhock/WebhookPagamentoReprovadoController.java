@@ -12,6 +12,7 @@ import com.fiap.msclienteapi.infra.adpter.repository.pedido.CriaPedidoRepository
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
 import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
+import com.fiap.msclienteapi.infra.stream.producers.PagamentoReprovadoProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,7 @@ public class WebhookPagamentoReprovadoController {
                         this.pedidoProdutoRepository
                 )
         );
+        statusPagamentoUseCase.setPagamentoProducerInterface(new PagamentoReprovadoProducer());
         statusPagamentoUseCase.execute(uuid, StatusPagamento.NAO_PAGO);
         OutputInterface outputInterface = statusPagamentoUseCase.getBuscaPedidoOutput();
 
