@@ -11,6 +11,7 @@ import com.fiap.msclienteapi.domain.presenters.cliente.identifica.IdentificaClie
 import com.fiap.msclienteapi.domain.useCase.cliente.IdentificarClienteUseCase;
 import com.fiap.msclienteapi.infra.adpter.repository.cliente.IdentificarClienteRepository;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
+import com.fiap.msclienteapi.infra.stream.producers.NovoClienteProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,10 @@ public class ClienteController {
                 identificaClienteRequest.cpf(),
                 identificaClienteRequest.email()
         );
-        IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(new IdentificarClienteRepository(clienteRepository));
+        IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(
+                new IdentificarClienteRepository(clienteRepository),
+                new NovoClienteProducer()
+        );
         useCase.execute(identificaClienteInput);
 
         OutputInterface outputInterface = useCase.getIdentificaClienteOutput();

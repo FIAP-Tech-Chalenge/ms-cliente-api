@@ -5,6 +5,7 @@ import com.fiap.msclienteapi.domain.exception.cliente.EmailNaoPodeSerNuloExcepti
 import com.fiap.msclienteapi.domain.exception.cliente.NomeNaoPodeSerNuloException;
 import com.fiap.msclienteapi.domain.exception.valueObject.documento.CpfInvalidoValueObjectException;
 import com.fiap.msclienteapi.domain.gateway.cliente.IdentificarClienteInterface;
+import com.fiap.msclienteapi.domain.gateway.producers.NovoClienteProducertInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputError;
 import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class IdentificarClienteUseCase {
 
     private final IdentificarClienteInterface identificaCliente;
+    private final NovoClienteProducertInterface novoClienteProducertInterface;
     private OutputInterface identificaClienteOutput;
 
     public void execute(IdentificaClienteInput identificaClienteInput) throws Exception {
@@ -55,6 +57,10 @@ public class IdentificarClienteUseCase {
                     e.getMessage(),
                     new OutputStatus(500, "Internal Error", e.getMessage())
             );
+        } finally {
+            if (this.identificaClienteOutput.getOutputStatus().getCode() == 200) {
+                this.novoClienteProducertInterface.send(this.identificaClienteOutput);
+            }
         }
     }
 }
