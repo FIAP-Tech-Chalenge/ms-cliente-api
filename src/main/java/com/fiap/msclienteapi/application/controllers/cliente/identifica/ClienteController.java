@@ -14,6 +14,7 @@ import com.fiap.msclienteapi.infra.repository.ClienteRepository;
 import com.fiap.msclienteapi.infra.stream.producers.NovoClienteProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,12 @@ public class ClienteController {
 
     private final ClienteRepository clienteRepository;
 
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private String bootstrapServers;
+
+    @Value("${spring.kafka.producer.topic}")
+    private String topic;
+
     @PostMapping
     @Operation(tags = {"cliente"})
     public ResponseEntity<Object> identificaCliente(@RequestBody IdentificaClienteRequest identificaClienteRequest) throws Exception {
@@ -39,7 +46,7 @@ public class ClienteController {
         );
         IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(
                 new IdentificarClienteRepository(clienteRepository),
-                new NovoClienteProducer()
+                new NovoClienteProducer(bootstrapServers, topic)
         );
         useCase.execute(identificaClienteInput);
 
