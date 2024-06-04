@@ -1,12 +1,14 @@
 package com.fiap.msclienteapi.infra.dependecy.kafka.resolvers.producer;
 
+import com.fiap.msclienteapi.infra.dependecy.kafka.resolvers.KafkaTopicsEnum;
+
 public class KafkaProducerResolver {
 
     public String getPagamentoProducer() {
-        return "pagamento";
+        return KafkaTopicsEnum.pagamento.name();
     }
 
     public String getClienteProducer() {
-        return "cliente";
+        return KafkaTopicsEnum.cliente.name();
     }
 }

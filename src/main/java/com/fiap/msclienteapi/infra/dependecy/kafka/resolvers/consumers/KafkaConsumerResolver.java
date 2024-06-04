@@ -1,16 +1,15 @@
 package com.fiap.msclienteapi.infra.dependecy.kafka.resolvers.consumers;
 
+import com.fiap.msclienteapi.infra.dependecy.kafka.resolvers.KafkaTopicsEnum;
+
 public class KafkaConsumerResolver {
 
     public String getPagamentoConsumer() {
-        return "pagamento";
+        return KafkaTopicsEnum.pagamento.name();
+
     }
 
     public String getClienteConsumer() {
-        return "cliente";
-    }
-
-    public String getCumposConsumer() {
-        return "cupom";
+        return KafkaTopicsEnum.cliente.name();
     }
 }
