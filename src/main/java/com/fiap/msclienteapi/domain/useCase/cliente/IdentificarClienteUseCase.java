@@ -59,17 +59,14 @@ public class IdentificarClienteUseCase {
                     new OutputStatus(500, "Internal Error", e.getMessage())
             );
         } finally {
-            if (this.identificaClienteOutput.getOutputStatus().getCode() == 201 || this.identificaClienteOutput.getOutputStatus().getCode() == 200) {
-                if (this.identificaClienteOutput instanceof IdentificaClienteOutput) {
-                    IdentificaClienteOutput identificaClienteOutput = (IdentificaClienteOutput) this.identificaClienteOutput;
-                    ClienteOutput clienteOutput = new ClienteOutput(
-                            identificaClienteOutput.getCliente().getUuid(),
-                            identificaClienteOutput.getCliente().getNome(),
-                            identificaClienteOutput.getCliente().getCpf(),
-                            identificaClienteOutput.getCliente().getEmail()
-                    );
-                    this.novoClienteProducertInterface.send(clienteOutput);
-                }
+            if (this.identificaClienteOutput instanceof IdentificaClienteOutput identificaClienteOutput) {
+                ClienteOutput clienteOutput = new ClienteOutput(
+                        identificaClienteOutput.getCliente().getUuid(),
+                        identificaClienteOutput.getCliente().getNome(),
+                        identificaClienteOutput.getCliente().getCpf(),
+                        identificaClienteOutput.getCliente().getEmail()
+                );
+                this.novoClienteProducertInterface.send(clienteOutput);
             }
         }
     }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fiap.msclienteapi.domain.gateway.producers.NovoClienteProducertInterface;
 import com.fiap.msclienteapi.domain.generic.output.ClienteOutput;
-import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -27,18 +26,13 @@ public class NovoClienteProducer implements NovoClienteProducertInterface {
         this.topic = topic;
     }
 
-    public void send(OutputInterface message) {
-        if (!(message instanceof ClienteOutput)) {
-            throw new IllegalArgumentException("A mensagem deve ser uma instância de ClienteOutput");
-        }
-
-        ClienteOutput clienteOutput = (ClienteOutput) message;
+    public void send(ClienteOutput clienteOutput) {
         try {
             ObjectNode jsonNode = objectMapper.createObjectNode();
-            jsonNode.put("clienteId", clienteOutput.getUuid().toString());
-            jsonNode.put("clienteNome", clienteOutput.getNome());
-            jsonNode.put("clienteCpf", clienteOutput.getCpf());
-            jsonNode.put("clienteEmail", clienteOutput.getEmail());
+            jsonNode.put("cliente_id", clienteOutput.getUuid().toString());
+            jsonNode.put("cliente_nome", clienteOutput.getNome());
+            jsonNode.put("cliente_cpf", clienteOutput.getCpf());
+            jsonNode.put("cliente_email", clienteOutput.getEmail());
             String json = jsonNode.toString();
             send(UUID.randomUUID().toString(), json);
         } catch (Exception e) {

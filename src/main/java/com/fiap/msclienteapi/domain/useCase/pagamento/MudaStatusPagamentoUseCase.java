@@ -48,8 +48,8 @@ public class MudaStatusPagamentoUseCase {
                     new OutputStatus(500, "Internal Server Error", "Erro no servidor")
             );
         } finally {
-            if (this.pagamentoProducerInterface != null) {
-                this.pagamentoProducerInterface.send(this.buscaPedidoOutput);
+            if (this.pagamentoProducerInterface != null && this.buscaPedidoOutput instanceof StatusPagamentoOutput) {
+                this.pagamentoProducerInterface.send((StatusPagamentoOutput) this.buscaPedidoOutput);
             }
         }
     }

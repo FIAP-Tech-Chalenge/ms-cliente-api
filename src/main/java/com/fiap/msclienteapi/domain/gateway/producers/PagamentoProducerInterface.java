@@ -1,7 +1,7 @@
 package com.fiap.msclienteapi.domain.gateway.producers;
 
-import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
+import com.fiap.msclienteapi.domain.output.pagamento.StatusPagamentoOutput;
 
 public interface PagamentoProducerInterface {
-    void send(OutputInterface message);
+    void send(StatusPagamentoOutput statusPagamentoOutput);
 }
