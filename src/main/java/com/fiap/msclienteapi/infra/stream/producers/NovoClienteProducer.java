@@ -12,8 +12,8 @@ import java.util.UUID;
 public class NovoClienteProducer extends KafkaSenderConfig implements NovoClienteProducertInterface {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public NovoClienteProducer() {
-        super(KafkaProducerResolver.getClienteProducer().getServers(), KafkaProducerResolver.getClienteProducer().getTopic());
+    public NovoClienteProducer(String servers) {
+        super(servers, new KafkaProducerResolver().getClienteProducer());
     }
 
     public void send(ClienteOutput clienteOutput) {

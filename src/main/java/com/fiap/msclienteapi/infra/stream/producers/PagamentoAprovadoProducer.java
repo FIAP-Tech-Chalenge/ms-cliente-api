@@ -12,8 +12,8 @@ import java.util.UUID;
 public class PagamentoAprovadoProducer extends KafkaSenderConfig implements PagamentoProducerInterface {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public PagamentoAprovadoProducer() {
-        super(KafkaProducerResolver.getPagamentoProducer().getServers(), KafkaProducerResolver.getPagamentoProducer().getTopic());
+    public PagamentoAprovadoProducer(String servers) {
+        super(servers, new KafkaProducerResolver().getPagamentoProducer());
     }
 
     @Override
