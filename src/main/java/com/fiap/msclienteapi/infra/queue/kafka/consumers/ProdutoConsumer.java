@@ -3,6 +3,7 @@ package com.fiap.msclienteapi.infra.queue.kafka.consumers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.msclienteapi.domain.enums.produto.CategoriaEnum;
+import com.fiap.msclienteapi.infra.dependecy.kafka.resolvers.consumers.KafkaConsumerResolver;
 import com.fiap.msclienteapi.infra.model.ProdutoModel;
 import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -11,7 +12,10 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
 @Component
@@ -26,7 +30,7 @@ public class ProdutoConsumer {
                            ProdutoRepository produtoRepository) {
         this.produtoDataQueue = produtoDataQueue;
         this.consumer = new KafkaConsumer<>(kafkaConsumerProperties);
-        this.consumer.subscribe(Collections.singletonList("produto")); // Change to your topic name
+        this.consumer.subscribe(Collections.singletonList(new KafkaConsumerResolver().getProdutoConsumer())); // Change to your topic name
         this.objectMapper = new ObjectMapper();
         this.produtoRepository = produtoRepository;
     }
