@@ -11,7 +11,7 @@ import com.fiap.msclienteapi.domain.presenters.cliente.identifica.IdentificaClie
 import com.fiap.msclienteapi.domain.useCase.cliente.IdentificarClienteUseCase;
 import com.fiap.msclienteapi.infra.adpter.repository.cliente.IdentificarClienteRepository;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
-import com.fiap.msclienteapi.infra.stream.producers.NovoClienteProducer;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.NovoClienteProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

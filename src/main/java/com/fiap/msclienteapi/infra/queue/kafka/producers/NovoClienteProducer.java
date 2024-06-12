@@ -1,4 +1,4 @@
-package com.fiap.msclienteapi.infra.stream.producers;
+package com.fiap.msclienteapi.infra.queue.kafka.producers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

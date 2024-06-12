@@ -12,7 +12,7 @@ import com.fiap.msclienteapi.infra.adpter.repository.pedido.CriaPedidoRepository
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
 import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
-import com.fiap.msclienteapi.infra.stream.producers.PagamentoAprovadoProducer;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.PagamentoAprovadoProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
