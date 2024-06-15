@@ -13,24 +13,21 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.concurrent.BlockingQueue;
+
 
 @Component
 public class ProdutoConsumer {
 
     private final KafkaConsumer<String, String> consumer;
-    private final BlockingQueue<Map.Entry<Long, Double>> produtoDataQueue;
     private final ObjectMapper objectMapper;
     private final ProdutoRepository produtoRepository;
 
-    public ProdutoConsumer(Properties kafkaConsumerProperties, BlockingQueue<Map.Entry<Long, Double>> produtoDataQueue,
+    public ProdutoConsumer(Properties kafkaConsumerProperties,
                            ProdutoRepository produtoRepository) {
-        this.produtoDataQueue = produtoDataQueue;
         this.consumer = new KafkaConsumer<>(kafkaConsumerProperties);
-        this.consumer.subscribe(Collections.singletonList(new KafkaConsumerResolver().getProdutoConsumer())); // Change to your topic name
+        this.consumer.subscribe(Collections.singletonList(new KafkaConsumerResolver().getProdutoConsumer()));
         this.objectMapper = new ObjectMapper();
         this.produtoRepository = produtoRepository;
     }
@@ -58,14 +55,8 @@ public class ProdutoConsumer {
                         produtoModel.setCategoria(CategoriaEnum.valueOf(categoria));
                         produtoModel.setQuantidade(quantidade);
                         produtoRepository.save(produtoModel);
-                        /*Map.Entry<String, Double, String> produtoData = new AbstractMap.SimpleEntry<>(uuid, valor, descricao);
-                        produtoDataQueue.put(produtoData);*/
                     } catch (Exception e) {
                         System.err.println("Erro ao processar a mensagem: " + e.getMessage());
-                        if (e instanceof InterruptedException) {
-                            Thread.currentThread().interrupt();
-                            return;
-                        }
                     }
                 }
             }
