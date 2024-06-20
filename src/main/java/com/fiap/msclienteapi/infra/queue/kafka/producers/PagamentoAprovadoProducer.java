@@ -25,7 +25,8 @@ public class PagamentoAprovadoProducer extends KafkaSenderConfig implements Paga
             jsonNode.put("status_pagamento", statusPagamentoOutput.getPedidoEntity().getStatusPagamento().toString());
             jsonNode.put("numero_pedido", statusPagamentoOutput.getPedidoEntity().getNumeroPedido());
             jsonNode.put("total", statusPagamentoOutput.getPedidoEntity().getTotal());
-            jsonNode.put("produtos", statusPagamentoOutput.getPedidoEntity().getProdutos().toString());
+            String produtosJson = objectMapper.writeValueAsString(statusPagamentoOutput.getPedidoEntity().getProdutos());
+            jsonNode.put("produtos", produtosJson);
             String json = jsonNode.toString();
             send(UUID.randomUUID().toString(), json);
         } catch (Exception e) {
