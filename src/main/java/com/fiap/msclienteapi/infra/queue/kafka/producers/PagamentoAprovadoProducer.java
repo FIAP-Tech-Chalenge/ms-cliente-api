@@ -17,10 +17,15 @@ public class PagamentoAprovadoProducer extends KafkaSenderConfig implements Paga
     }
 
     @Override
-    public void send(StatusPagamentoOutput message) {
+    public void send(StatusPagamentoOutput statusPagamentoOutput) {
         try {
             ObjectNode jsonNode = objectMapper.createObjectNode();
-            //jsonNode.put("cliente_id", clienteOutput.getUuid().toString());
+            jsonNode.put("pedido_uuid", statusPagamentoOutput.getPedidoEntity().getUuid().toString());
+            jsonNode.put("cliente_uuid", statusPagamentoOutput.getPedidoEntity().getClienteUuid().toString());
+            jsonNode.put("status_pagamento", statusPagamentoOutput.getPedidoEntity().getStatusPagamento().toString());
+            jsonNode.put("numero_pedido", statusPagamentoOutput.getPedidoEntity().getNumeroPedido());
+            jsonNode.put("total", statusPagamentoOutput.getPedidoEntity().getTotal());
+            jsonNode.put("produtos", statusPagamentoOutput.getPedidoEntity().getProdutos().toString());
             String json = jsonNode.toString();
             send(UUID.randomUUID().toString(), json);
         } catch (Exception e) {

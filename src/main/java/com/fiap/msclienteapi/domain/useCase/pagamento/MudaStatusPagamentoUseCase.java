@@ -34,7 +34,7 @@ public class MudaStatusPagamentoUseCase {
             pedidoEntity = this.pedidoInterface.atualizaPagamento(pedidoEntity, statusPagamento);
 
             this.buscaPedidoOutput = new StatusPagamentoOutput(
-                    pedidoEntity.getStatusPagamento(),
+                    pedidoEntity,
                     new OutputStatus(200, "OK", "Status do pagamento atualizado")
             );
         } catch (PedidoNaoEncontradoException e) {

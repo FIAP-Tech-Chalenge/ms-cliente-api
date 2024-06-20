@@ -15,7 +15,7 @@ public class StatusPagamentoPresenter implements PresenterInterface {
 
     public Map<String, Object> toArray() {
         Map<String, Object> cliente = new HashMap<>();
-        cliente.put("status_pagamento", this.statusPagamentoOutput.getStatusPagamento());
+        cliente.put("status_pagamento", this.statusPagamentoOutput.getPedidoEntity().getStatusPagamento());
         return cliente;
     }
 

@@ -18,7 +18,6 @@ import java.util.UUID;
 @Setter
 public class Pedido {
     private final UUID clienteUuid;
-    private UUID pedidoId;
     private UUID uuid;
     private Long numeroPedido;
     @Enumerated(EnumType.STRING)
@@ -34,7 +33,7 @@ public class Pedido {
     }
 
     public Pedido(UUID pedidoId, UUID clienteId, StatusPedido statusPedido, StatusPagamento statusPagamento, Float valorTotal) {
-        this.pedidoId = pedidoId;
+        this.uuid = pedidoId;
         this.clienteUuid = clienteId;
         this.statusPedido = statusPedido;
         this.statusPagamento = statusPagamento;
