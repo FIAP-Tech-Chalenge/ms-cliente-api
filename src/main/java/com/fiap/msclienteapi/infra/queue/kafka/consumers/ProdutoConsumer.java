@@ -40,12 +40,12 @@ public class ProdutoConsumer {
                     System.out.printf("Mensagem recebida - Tópico: %s, Chave: %s, Valor: %s%n", record.topic(), record.key(), record.value());
                     try {
                         JsonNode messageJson = objectMapper.readTree(record.value());
-                        String uuid = messageJson.get("uuid").asText();
-                        double valor = messageJson.get("valor").asDouble();
-                        String nome = messageJson.get("nome").asText();
-                        String descricao = messageJson.get("descricao").asText();
-                        String categoria = messageJson.get("categoria").asText();
-                        int quantidade = messageJson.get("quantidade").asInt();
+                        String uuid = messageJson.get("produto_uuid").asText();
+                        double valor = messageJson.get("produto_valor").asDouble();
+                        String nome = messageJson.get("produto_nome").asText();
+                        String descricao = messageJson.get("produto_descricao").asText();
+                        String categoria = messageJson.get("produto_categoria").asText();
+                        int quantidade = messageJson.get("produto_quantidade").asInt();
 
                         ProdutoModel produtoModel = new ProdutoModel();
                         produtoModel.setUuid(UUID.fromString(uuid));

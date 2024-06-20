@@ -1,3 +1,4 @@
+version: '3.7'
 services:
   app:
     build:
@@ -10,7 +11,7 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydatabase
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/cliente
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: my-secret-pw
       SPRING_PROFILES_ACTIVE: hom
@@ -20,19 +21,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: my-secret-pw
-      POSTGRES_DB: mydatabase
+      POSTGRES_DB: cliente
     ports:
-      - "5432:5432"
-
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: user@domain.com
-      PGADMIN_DEFAULT_PASSWORD: SuperSecret
-    ports:
-      - "8085:8085"
-    depends_on:
-      - postgres
+      - "5433:5432"
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:

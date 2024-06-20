@@ -32,12 +32,12 @@ public class KafkaJsonProducer {
 
                 // Crie um mapa para simular o JSON
                 Map<String, Object> valueMap = new HashMap<>();
-                valueMap.put("uuid", UUID.randomUUID().toString());
-                valueMap.put("nome", "Produto " + i);
-                valueMap.put("valor", 123);
-                valueMap.put("descricao", "Descricao " + i);
-                valueMap.put("categoria", "LANCHE");
-                valueMap.put("quantidade", 4123);
+                valueMap.put("produto_uuid", UUID.randomUUID().toString());
+                valueMap.put("produto_nome", "Produto " + i);
+                valueMap.put("produto_valor", 123);
+                valueMap.put("produto_descricao", "Descricao " + i);
+                valueMap.put("produto_categoria", "LANCHE");
+                valueMap.put("produto_quantidade", 4123);
 
                 // Converta o mapa para uma string JSON
                 String value = objectMapper.writeValueAsString(valueMap);
