@@ -85,6 +85,7 @@ jobs:
           COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=FIAP-Tech-Chalenge_tech-challenge&metricKeys=coverage" | jq -r '.component.measures[0].value')
 
           # Check if coverage is less than 80%
+          echo $COVERAGE
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
             echo "Code coverage is below 80%: $COVERAGE"
             exit 1
