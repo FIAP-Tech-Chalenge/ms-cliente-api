@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-
 public class ClienteOutput implements OutputInterface {
     private final UUID uuid;
     private final String nome;
@@ -30,7 +29,6 @@ public class ClienteOutput implements OutputInterface {
     public OutputStatus getOutputStatus() {
         return new OutputStatus(200, "Ok", "Cliente encontrado");
     }
-
 
 
 }

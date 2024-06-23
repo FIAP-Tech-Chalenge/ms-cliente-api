@@ -13,6 +13,7 @@ import com.fiap.msclienteapi.infra.adpter.repository.pedido.CriaPedidoRepository
 import com.fiap.msclienteapi.infra.adpter.repository.produto.BuscarProdutoRepository;
 import com.fiap.msclienteapi.infra.dependecy.StringValidatorsAdapter;
 import com.fiap.msclienteapi.infra.dependecy.resolvers.RequestClienteResolver;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.PedidoProducer;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
@@ -22,6 +23,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,8 @@ public class StorePedidoController {
     private final ClienteRepository clienteRepository;
     private final ProdutoRepository produtoRepository;
     private final PedidoProdutoRepository pedidoProdutoRepository;
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private String servers;
 
     @PostMapping
     @Operation(
@@ -70,7 +74,8 @@ public class StorePedidoController {
         CriaPedidoUseCase useCase = new CriaPedidoUseCase(
                 new CriaPedidoRepository(pedidoRepository, produtoRepository, pedidoProdutoRepository),
                 new ClienteEntityRepository(clienteRepository),
-                new BuscarProdutoRepository(produtoRepository)
+                new BuscarProdutoRepository(produtoRepository),
+                new PedidoProducer(servers)
         );
         useCase.execute(criaPedidoInput);
         OutputInterface outputInterface = useCase.getCriaPedidoOutput();
