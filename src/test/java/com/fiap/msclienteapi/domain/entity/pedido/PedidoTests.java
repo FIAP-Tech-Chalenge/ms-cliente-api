@@ -1,20 +1,19 @@
 package com.fiap.msclienteapi.domain.entity.pedido;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.junit.jupiter.api.Test;
-
 import com.fiap.msclienteapi.domain.enums.pedido.StatusPagamento;
 import com.fiap.msclienteapi.domain.enums.pedido.StatusPedido;
 import com.fiap.msclienteapi.domain.enums.produto.CategoriaEnum;
 import com.fiap.msclienteapi.domain.exception.pedido.PedidoVazioException;
 import com.fiap.msclienteapi.domain.exception.pedido.ProdutoDoPedidoSemQuantidadeException;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 public class PedidoTests {
     
@@ -30,7 +29,6 @@ public class PedidoTests {
         UUID pedidoUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
         Pedido pedido = new Pedido(pedidoUUID, clienteUUID, StatusPedido.PRONTO, StatusPagamento.PAGO, 10.0f);
-        assertThat(pedido.getPedidoId()).isEqualTo(pedidoUUID);
         assertThat(pedido.getClienteUuid()).isEqualTo(clienteUUID);
         assertThat(pedido.getStatusPedido()).isEqualTo(StatusPedido.PRONTO);
         assertThat(pedido.getStatusPagamento()).isEqualTo(StatusPagamento.PAGO);
@@ -40,7 +38,6 @@ public class PedidoTests {
     public void deveInstanciarUmPedidoViaGetters(){
         UUID randomUUID = UUID.randomUUID();
         Pedido pedido = new Pedido(randomUUID);
-        pedido.setPedidoId(UUID.randomUUID());
         UUID pedidoUUID = UUID.randomUUID();
         pedido.setUuid(pedidoUUID);
         pedido.setNumeroPedido(2L);
