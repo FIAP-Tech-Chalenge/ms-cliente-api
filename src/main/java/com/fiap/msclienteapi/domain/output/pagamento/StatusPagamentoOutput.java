@@ -1,6 +1,7 @@
 package com.fiap.msclienteapi.domain.output.pagamento;
 
 import com.fiap.msclienteapi.domain.entity.cliente.Cliente;
+import com.fiap.msclienteapi.domain.entity.pedido.Pedido;
 import com.fiap.msclienteapi.domain.enums.pedido.StatusPagamento;
 import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
@@ -16,15 +17,15 @@ import java.util.UUID;
 @Getter
 @Setter
 public class StatusPagamentoOutput implements OutputInterface {
-    private final StatusPagamento statusPagamento;
+    private final Pedido pedidoEntity;
     private OutputStatus outputStatus;
 
-    public StatusPagamentoOutput(StatusPagamento statusPagamento, OutputStatus outputStatus) {
+    public StatusPagamentoOutput(Pedido pedidoEntity, OutputStatus outputStatus) {
         this.outputStatus = outputStatus;
-        this.statusPagamento = statusPagamento;
+        this.pedidoEntity = pedidoEntity;
     }
 
     public Object getBody() {
-        return this.statusPagamento;
+        return this.pedidoEntity;
     }
 }

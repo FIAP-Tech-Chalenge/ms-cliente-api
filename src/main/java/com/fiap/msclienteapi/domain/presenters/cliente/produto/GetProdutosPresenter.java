@@ -28,11 +28,12 @@ public class GetProdutosPresenter implements PresenterInterface {
             pedidoMap.put("descricao", produto.getDescricao());
             pedidoMap.put("categoria", produto.getCategoria());
             pedidoMap.put("quantidade", produto.getQuantidade());
+            pedidoMap.put("valor", produto.getValor());
             
             produtosMapList.add(pedidoMap);
         }
 
-        map.put("pedidos", produtosMapList);
+        map.put("produtos", produtosMapList);
 
         return map;
     }

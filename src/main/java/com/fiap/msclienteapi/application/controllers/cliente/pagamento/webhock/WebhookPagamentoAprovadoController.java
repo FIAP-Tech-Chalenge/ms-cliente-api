@@ -12,8 +12,10 @@ import com.fiap.msclienteapi.infra.adpter.repository.pedido.CriaPedidoRepository
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
 import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.PagamentoAprovadoProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,8 @@ public class WebhookPagamentoAprovadoController {
     private final PedidoRepository pedidoRepository;
     private final PedidoProdutoRepository pedidoProdutoRepository;
     private final ProdutoRepository produtoRepository;
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private String servers;
 
     @PostMapping("/{uuid}/pagamento/aprovado")
     @Operation(tags = {"cliente"})
@@ -44,6 +48,7 @@ public class WebhookPagamentoAprovadoController {
                         this.pedidoProdutoRepository
                 )
         );
+        statusPagamentoUseCase.setPagamentoProducerInterface(new PagamentoAprovadoProducer(servers));
         statusPagamentoUseCase.execute(uuid, StatusPagamento.PAGO);
         OutputInterface outputInterface = statusPagamentoUseCase.getBuscaPedidoOutput();
 
