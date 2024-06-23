@@ -12,12 +12,14 @@ import com.fiap.msclienteapi.domain.exception.produto.ProdutoNaoEncontradoExcept
 import com.fiap.msclienteapi.domain.generic.output.OutputError;
 import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
+import com.fiap.msclienteapi.domain.generic.output.PedidoOutput;
 import com.fiap.msclienteapi.domain.input.pedido.CriarPedidoInput;
 import com.fiap.msclienteapi.domain.input.pedido.ProdutoPedidoInput;
 import com.fiap.msclienteapi.domain.output.pedido.CriaPedidoOutput;
 import com.fiap.msclienteapi.domain.gateway.cliente.ClienteInterface;
 import com.fiap.msclienteapi.domain.gateway.pedido.PedidoInterface;
 import com.fiap.msclienteapi.domain.gateway.produto.BuscaProdutoInterface;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.PedidoProducer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +32,7 @@ public class CriaPedidoUseCase {
     private final PedidoInterface pedidoInterface;
     private final ClienteInterface clienteInterface;
     private final BuscaProdutoInterface produtoInterface;
+    private final PedidoProducer pedidoProducer;
     private OutputInterface criaPedidoOutput;
 
     public void execute(CriarPedidoInput criarPedidoInput) {
@@ -79,6 +82,19 @@ public class CriaPedidoUseCase {
                 e.getMessage(),
                 new OutputStatus(500, "Internal Error", e.getMessage())
             );
+        }finally {
+            if (this.criaPedidoOutput instanceof CriaPedidoOutput criaPedidoOutput) {
+                PedidoOutput pedidoOutput = new PedidoOutput(
+                        criaPedidoOutput.getPedido().getTotal(),
+                        criaPedidoOutput.getPedido().getUuid(),
+                        criaPedidoOutput.getPedido().getStatusPedido().toString(),
+                        criaPedidoOutput.getPedido().getProdutos(),
+                        Math.toIntExact(criaPedidoOutput.getPedido().getNumeroPedido()),
+                        criaPedidoOutput.getPedido().getStatusPagamento().toString(),
+                        criaPedidoOutput.getPedido().getClienteUuid()
+                );
+                pedidoProducer.send(pedidoOutput);
+            }
         }
     }
 

@@ -11,8 +11,10 @@ import com.fiap.msclienteapi.domain.presenters.cliente.identifica.IdentificaClie
 import com.fiap.msclienteapi.domain.useCase.cliente.IdentificarClienteUseCase;
 import com.fiap.msclienteapi.infra.adpter.repository.cliente.IdentificarClienteRepository;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.NovoClienteProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/cliente/identificar")
 public class ClienteController {
-
-
     private final ClienteRepository clienteRepository;
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private String servers;
 
     @PostMapping
     @Operation(tags = {"cliente"})
@@ -36,7 +38,10 @@ public class ClienteController {
                 identificaClienteRequest.cpf(),
                 identificaClienteRequest.email()
         );
-        IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(new IdentificarClienteRepository(clienteRepository));
+        IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(
+                new IdentificarClienteRepository(clienteRepository),
+                new NovoClienteProducer(servers)
+        );
         useCase.execute(identificaClienteInput);
 
         OutputInterface outputInterface = useCase.getIdentificaClienteOutput();
