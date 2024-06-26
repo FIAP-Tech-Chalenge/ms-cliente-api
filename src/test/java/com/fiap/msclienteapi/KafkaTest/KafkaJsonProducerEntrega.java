@@ -32,7 +32,7 @@ public class KafkaJsonProducerEntrega {
 
                 // Crie um mapa para simular o JSON
                 Map<String, Object> valueMap = new HashMap<>();
-                valueMap.put("pedido_uuid", UUID.randomUUID().toString()); // alterado para pedido_uuid
+                valueMap.put("uuid_pedido", UUID.randomUUID().toString()); // alterado para pedido_uuid
                 valueMap.put("numero_pedido", i); // adicionado numero_pedido
                 valueMap.put("status_pedido", "ENTREGUE"); // adicionado status_pedido
 
