@@ -13,7 +13,6 @@ import com.fiap.msclienteapi.infra.adpter.repository.pedido.CriaPedidoRepository
 import com.fiap.msclienteapi.infra.adpter.repository.produto.BuscarProdutoRepository;
 import com.fiap.msclienteapi.infra.dependecy.StringValidatorsAdapter;
 import com.fiap.msclienteapi.infra.dependecy.resolvers.RequestClienteResolver;
-import com.fiap.msclienteapi.infra.queue.kafka.producers.PedidoProducer;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
@@ -74,8 +73,7 @@ public class StorePedidoController {
         CriaPedidoUseCase useCase = new CriaPedidoUseCase(
                 new CriaPedidoRepository(pedidoRepository, produtoRepository, pedidoProdutoRepository),
                 new ClienteEntityRepository(clienteRepository),
-                new BuscarProdutoRepository(produtoRepository),
-                new PedidoProducer(servers)
+                new BuscarProdutoRepository(produtoRepository)
         );
         useCase.execute(criaPedidoInput);
         OutputInterface outputInterface = useCase.getCriaPedidoOutput();

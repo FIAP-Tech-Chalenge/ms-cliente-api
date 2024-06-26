@@ -4,5 +4,6 @@ public enum KafkaTopicsEnum {
     pagamento,
     cliente,
     produto,
-    pedido
+    pedido,
+    entrega
 }
