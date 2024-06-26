@@ -40,7 +40,7 @@ public class EntregaConsumer {
                     System.out.printf("Mensagem recebida - Tópico: %s, Chave: %s, Valor: %s%n", record.topic(), record.key(), record.value());
                     try {
                         JsonNode messageJson = objectMapper.readTree(record.value());
-                        String uuid = messageJson.get("pedido_uuid").asText();
+                        String uuid = messageJson.get("uuid_pedido").asText();
                         Long numero = messageJson.get("numero_pedido").asLong();
                         String status = messageJson.get("status_pedido").asText();
 
