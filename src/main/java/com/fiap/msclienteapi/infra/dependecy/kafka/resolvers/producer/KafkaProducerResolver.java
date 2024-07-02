@@ -15,4 +15,7 @@ public class KafkaProducerResolver {
     public String getPedidoProducer() {
         return KafkaTopicsEnum.pedido.name();
     }
+    public String getPedidoEntregeProducer() {
+        return KafkaTopicsEnum.entrega.name();
+    }
 }

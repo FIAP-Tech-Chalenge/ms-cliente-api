@@ -8,5 +8,6 @@ public interface PedidoInterface {
     Pedido criaPedido(Pedido pedido) throws ProdutoNaoEncontradoException;
 
     Pedido atualizaPagamento(Pedido pedido, StatusPagamento statusPagamento);
+    Pedido atualizaPedidoEntrege(Pedido pedido);
 
 }
