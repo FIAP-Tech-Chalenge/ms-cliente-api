@@ -22,6 +22,9 @@ public class PedidoEntregueProducer extends KafkaSenderConfig implements PedidoE
             jsonNode.put("pedido_uuid", statusPagamentoOutput.getPedido().getUuid().toString());
             jsonNode.put("cliente_uuid", statusPagamentoOutput.getPedido().getClienteUuid().toString());
             jsonNode.put("numero_pedido", statusPagamentoOutput.getPedido().getNumeroPedido());
+            jsonNode.put("status_pedido", statusPagamentoOutput.getPedido().getStatusPedido().toString());
+            jsonNode.put("total", statusPagamentoOutput.getPedido().getTotal());
+
             String json = jsonNode.toString();
             send(UUID.randomUUID().toString(), json);
         } catch (Exception e) {
