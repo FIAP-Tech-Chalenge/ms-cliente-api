@@ -13,7 +13,7 @@ public class PagamentoAprovadoProducer extends KafkaSenderConfig implements Paga
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public PagamentoAprovadoProducer(String servers) {
-        super(servers, new KafkaProducerResolver().getPagamentoProducer());
+        super(servers, new KafkaProducerResolver().getPedidoProducer());
     }
 
     @Override
