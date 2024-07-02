@@ -2,6 +2,7 @@ package com.fiap.msclienteapi.infra.adpter.repository.pedido;
 
 import com.fiap.msclienteapi.domain.entity.pedido.Pedido;
 import com.fiap.msclienteapi.domain.entity.pedido.Produto;
+import com.fiap.msclienteapi.domain.enums.pedido.StatusPedido;
 import com.fiap.msclienteapi.domain.gateway.pedido.BuscaPedidoInterface;
 import com.fiap.msclienteapi.infra.model.PedidoModel;
 import com.fiap.msclienteapi.infra.model.PedidoProdutoModel;
@@ -74,6 +75,30 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
         );
         pedidoEntity.setProdutos(produtosList);
         pedidoEntity.setUuid(pedidoModel.getUuid());
+        pedidoEntity.setNumeroPedido(pedidoModel.getNumeroPedido());
+        return pedidoEntity;
+    }
+
+    public Pedido encontraPedidoShortPorUuid(UUID pedidoUuid, UUID clienteUuid) {
+        PedidoModel pedidoModel = pedidoRepository.findByUuid(pedidoUuid);
+        if (pedidoModel == null) {
+            return null;
+        }
+        if (!pedidoModel.getClienteId().toString().equals(clienteUuid.toString())) {
+            return null;
+        }
+        pedidoModel.setStatusPedido(StatusPedido.FINALIZADO);
+        pedidoRepository.save(pedidoModel);
+
+        Pedido pedidoEntity = new Pedido(
+                pedidoModel.getUuid(),
+                pedidoModel.getClienteId(),
+                pedidoModel.getStatusPedido(),
+                pedidoModel.getStatusPagamento(),
+                pedidoModel.getValorTotal()
+        );
+        pedidoEntity.setUuid(pedidoModel.getUuid());
+        pedidoEntity.setStatusPedido(StatusPedido.FINALIZADO);
         pedidoEntity.setNumeroPedido(pedidoModel.getNumeroPedido());
         return pedidoEntity;
     }

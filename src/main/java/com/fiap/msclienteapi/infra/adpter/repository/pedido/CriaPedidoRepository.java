@@ -69,4 +69,9 @@ public class CriaPedidoRepository implements PedidoInterface {
         pedido.setStatusPagamento(statusPagamento);
         return pedido;
     }
+
+    @Override
+    public Pedido atualizaPedidoEntrege(Pedido pedido) {
+        return null;
+    }
 }
