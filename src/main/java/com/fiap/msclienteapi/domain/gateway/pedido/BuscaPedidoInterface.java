@@ -13,5 +13,5 @@ public interface BuscaPedidoInterface {
 
     List<Pedido> findAll();
 
-
+    Pedido encontraPedidoShortPorUuid(UUID pedidoUuid, UUID clienteUuid) throws PedidoNaoEncontradoException;
 }
