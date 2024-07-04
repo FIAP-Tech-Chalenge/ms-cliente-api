@@ -13,7 +13,7 @@ public class PedidoEntregueProducer extends KafkaSenderConfig implements PedidoE
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public PedidoEntregueProducer(String servers) {
-        super(servers, new KafkaProducerResolver().getPedidoProducer());
+        super(servers, new KafkaProducerResolver().getPedidoEntregeProducer());
     }
     @Override
     public void send(CriaPedidoOutput statusPagamentoOutput) {
