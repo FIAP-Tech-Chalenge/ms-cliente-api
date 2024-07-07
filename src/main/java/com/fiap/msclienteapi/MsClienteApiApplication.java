@@ -1,5 +1,6 @@
 package com.fiap.msclienteapi;
 
+import com.fiap.msclienteapi.infra.queue.kafka.consumers.EntregaConsumer;
 import com.fiap.msclienteapi.infra.queue.kafka.consumers.ProdutoConsumer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MsClienteApiApplication {
 
-	private final ProdutoConsumer consumer;
+	private final ProdutoConsumer produtoConsumer;
+
+	private final EntregaConsumer entregaConsumer;
 
 	@Autowired
-	public MsClienteApiApplication(ProdutoConsumer consumer) {
-		this.consumer = consumer;
+	public MsClienteApiApplication(ProdutoConsumer produtoConsumer, EntregaConsumer entregaConsumer) {
+		this.produtoConsumer = produtoConsumer;
+		this.entregaConsumer = entregaConsumer;
 	}
 
 	public static void main(String[] args) {
@@ -22,8 +26,10 @@ public class MsClienteApiApplication {
 
 	@PostConstruct
 	public void startConsumer() {
-		Thread consumerThread = new Thread(consumer::runConsumer);
+		Thread consumerThread = new Thread(produtoConsumer::runConsumer);
+		Thread consumerThread2 = new Thread(entregaConsumer::runConsumer);
 		consumerThread.start();
+		consumerThread2.start();
 	}
 
 }

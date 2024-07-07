@@ -7,4 +7,8 @@ public class KafkaConsumerResolver {
     public String getProdutoConsumer() {
         return KafkaTopicsEnum.produto.name();
     }
+
+    public String getEntregaConsumer() {
+        return KafkaTopicsEnum.entrega.name();
+    }
 }
