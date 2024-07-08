@@ -86,4 +86,42 @@ public class BuscarPedidoRepositoryTests {
         assertThat(pedidoEncontrado).isNull();
     }
 
+    @Test
+    public void deveRetornarNuloCasoPedidoNaoEncontrado() {
+        UUID pedidoUUID = UUID.randomUUID();
+        UUID clienteUUID = UUID.randomUUID();
+        
+        when(pedidoRepository.findByUuid(pedidoUUID)).thenReturn(null);
+
+        Pedido valorRetornado = buscarPedidoRepository.encontraPedidoShortPorUuid(pedidoUUID, clienteUUID);
+        assertThat(valorRetornado).isNull();
+    }
+    @Test
+    public void deveRetornarNuloCasoClienteUsadoNaBuscaSejaDiferenteDoClienteEncontradoNoPedido() {
+        UUID pedidoUUID = UUID.randomUUID();
+        UUID clienteUUID = UUID.randomUUID();
+        PedidoModel pedido = new PedidoModel();
+        pedido.setClienteId(UUID.randomUUID());
+        
+        when(pedidoRepository.findByUuid(pedidoUUID)).thenReturn(pedido);
+
+        Pedido valoreRetornado = buscarPedidoRepository.encontraPedidoShortPorUuid(pedidoUUID, clienteUUID);
+        assertThat(valoreRetornado).isNull();
+    }
+
+    @Test
+    public void deveAtulizarOStatusDoPedidoParaFINALIZADO() {
+        UUID pedidoUUID = UUID.randomUUID();
+        UUID clienteUUID = UUID.randomUUID();
+        PedidoModel pedido = new PedidoModel();
+        pedido.setUuid(pedidoUUID);
+        pedido.setClienteId(clienteUUID);
+        pedido.setStatusPedido(StatusPedido.RECEBIDO);
+        
+        when(pedidoRepository.findByUuid(pedidoUUID)).thenReturn(pedido);
+
+        Pedido valoreRetornado = buscarPedidoRepository.encontraPedidoShortPorUuid(pedidoUUID, clienteUUID);
+        assertThat(valoreRetornado.getStatusPedido()).isEqualTo(StatusPedido.FINALIZADO);
+    }
+
 }

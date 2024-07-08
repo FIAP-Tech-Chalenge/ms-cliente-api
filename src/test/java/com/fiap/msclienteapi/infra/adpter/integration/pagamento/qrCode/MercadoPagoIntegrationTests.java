@@ -25,26 +25,4 @@ public class MercadoPagoIntegrationTests {
     void tearDown() throws Exception {
         openMocks.close();
     }
-
-    // @Test
-    // public void deveRetornarUmGatewayQRCODE() {
-    //     UUID uuid = UUID.randomUUID();
-    //     Float valorTotal = 100.0f;
-
-    //     String jsonResponse = "{\"qr_data\": \"qr_code_simulado\", \"in_store_order_id\": \"order_id_simulado\"}";
-    //     try {
-    //         when(httpAdapterInterface.post(anyString(), anyString(), anyMap())).thenReturn(jsonResponse);
-    //         GatewayQrCode qrCode = mercadoPagoIntegration.geraQrCodePagamento(uuid, valorTotal);   
-    //         assertEquals("qr_code_simulado", qrCode.getQrData());
-    //         assertEquals("order_id_simulado", qrCode.getInStoreOrderId());
-    //     } catch (Exception e) {}
-    // }
-
-    // @Test
-    // public void testaSneakyThrows() {
-    //     UUID uuid = UUID.randomUUID();
-    //     Float valorTotal = 100.0f;
-    //     Exception exception = assertThrows(Exception.class, () -> mercadoPagoIntegration.geraQrCodePagamento(uuid, valorTotal));
-    //     assertEquals( exception.getMessage(), "Cannot invoke \"java.util.Map.get(Object)\" because \"dataResponse\" is null");
-    // }
 }

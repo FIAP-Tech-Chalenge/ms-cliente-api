@@ -1,8 +1,9 @@
-package com.fiap.msclienteapi.application.controllers.cliente.pagamento;
+package com.fiap.msclienteapi.application.controllers.cliente.pagamento.webhock;
 
 import com.fiap.msclienteapi.infra.model.PedidoModel;
 import com.fiap.msclienteapi.infra.repository.PedidoProdutoRepository;
 import com.fiap.msclienteapi.infra.repository.PedidoRepository;
+import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,19 +18,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProcessarPagamentoControllerTests {
-
+public class WebhookPagamentoReprovadoControllerTest {
+    
     @Mock
     PedidoRepository pedidoRepository;
 
     @Mock
     PedidoProdutoRepository pedidoProdutoRepository;
 
+    @Mock
+    ProdutoRepository produtoRepository;
+
     @InjectMocks
-    ProcessarPagamentoController processarPagamentoController;
+    WebhookPagamentoReprovadoController webhookPagamentoReprovadoController;
 
     @Test
-    public void deveRetornarOutputError(){
+    public void deveRetornar200aoEncontrarUmPedido() {
         UUID pedidoUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
         PedidoModel pedido = new PedidoModel();
@@ -38,8 +42,8 @@ public class ProcessarPagamentoControllerTests {
         when(pedidoRepository.findByUuid(pedidoUUID)).thenReturn(pedido);
 
 
-        ResponseEntity<Object> response = processarPagamentoController.processarCheckout(pedidoUUID);
+        ResponseEntity<Object> response = webhookPagamentoReprovadoController.pagamentoReprovado(pedidoUUID);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
     }
-    
+
 }
