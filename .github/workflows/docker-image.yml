@@ -115,4 +115,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-admin-api:latest
+          tags: wolwer/ms-cliente-api:latest
