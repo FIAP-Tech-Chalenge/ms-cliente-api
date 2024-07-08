@@ -74,22 +74,29 @@ jobs:
       - name: SonarCloud analysis
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{ secrets.SONAR_PROJECTKEY }} -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
-      - name: Install jq and bc
-        run: sudo apt-get install -y jq bc
+      - name: Install xmllint
+        run: sudo apt-get install -y libxml2-utils
 
-      - name: Check Coverage
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Check JaCoCo Coverage
         run: |
-          # Fetch the coverage from SonarQube
-          COVERAGE=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "https://sonarcloud.io/api/measures/component?component=FIAP-Tech-Chalenge_tech-challenge&metricKeys=coverage" | jq -r '.component.measures[0].value')
+          # Define the path to the JaCoCo XML report
+          JACOCO_XML_PATH=target/site/jacoco/jacoco.xml
 
-          # Check if coverage is less than 80%
-          echo $COVERAGE
-          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-            echo "Code coverage is below 80%: $COVERAGE"
+          # Extract the coverage percentage
+          COVERAGE=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@covered)' $JACOCO_XML_PATH)
+          MISSED=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@missed)' $JACOCO_XML_PATH)
+
+          # Calculate the coverage percentage
+          TOTAL=$(echo "$COVERAGE + $MISSED" | bc)
+          PERCENTAGE=$(echo "scale=2; $COVERAGE / $TOTAL * 100" | bc)
+
+          # Display the coverage percentage
+          echo "Code coverage percentage: $PERCENTAGE%"
+
+          # Check if the coverage is less than 80%
+          if (( $(echo "$PERCENTAGE < 80" | bc -l) )); then
+            echo "Code coverage is below 80%: $PERCENTAGE%"
             exit 1
-          fi
 
   deploy-to-dockerhub:
     needs: sonarcloud-analysis
@@ -115,4 +122,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-admin-api:latest
+          tags: wolwer/ms-cliente-api:latest
