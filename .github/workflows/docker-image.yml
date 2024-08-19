@@ -3,6 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*.*.*' ]  # Adiciona trigger para tags de versão semântica
   pull_request:
     branches: [ main ]
 
@@ -123,4 +124,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-cliente-api:latest
+          tags: wolwer/ms-cliente-api:${{ github.ref_name }}  # Usa a tag do Git como tag da imagem
