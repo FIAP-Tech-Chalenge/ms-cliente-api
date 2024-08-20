@@ -81,3 +81,10 @@ INSERT INTO pedido_produtos (pedido_uuid, produto_uuid, valor, quantidade, categ
                                                                                                         ('123e4567-e89b-12d3-a456-426614174012', '123e4567-e89b-12d3-a456-426614174007', 30, 1, 'ACOMPANHAMENTO', 3),
                                                                                                         ('123e4567-e89b-12d3-a456-426614174013', '123e4567-e89b-12d3-a456-426614174008', 40, 1, 'SOBREMESA', 4),
                                                                                                         ('123e4567-e89b-12d3-a456-426614174014', '123e4567-e89b-12d3-a456-426614174009', 50, 1, 'SOBREMESA', 5);
+
+
+CREATE TABLE IF NOT EXISTS clientes_inativacao (
+    uuid VARCHAR(36) PRIMARY KEY,
+    uuid_cliente VARCHAR(36) NOT NULL,
+    data_inativacao TIMESTAMP DEFAULT NOW()
+);

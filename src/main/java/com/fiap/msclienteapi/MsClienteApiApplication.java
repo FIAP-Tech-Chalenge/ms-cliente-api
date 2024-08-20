@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MsClienteApiApplication {
 
-	private final ProdutoConsumer produtoConsumer;
+	/*private final ProdutoConsumer produtoConsumer;
 
 	private final EntregaConsumer entregaConsumer;
 
@@ -19,17 +19,17 @@ public class MsClienteApiApplication {
 		this.produtoConsumer = produtoConsumer;
 		this.entregaConsumer = entregaConsumer;
 	}
-
+*/
 	public static void main(String[] args) {
 		SpringApplication.run(MsClienteApiApplication.class, args);
 	}
 
 	@PostConstruct
 	public void startConsumer() {
-		Thread consumerThread = new Thread(produtoConsumer::runConsumer);
+		/*Thread consumerThread = new Thread(produtoConsumer::runConsumer);
 		Thread consumerThread2 = new Thread(entregaConsumer::runConsumer);
 		consumerThread.start();
-		consumerThread2.start();
+		consumerThread2.start();*/
 	}
 
 }
