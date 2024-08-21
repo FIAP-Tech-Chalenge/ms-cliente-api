@@ -124,4 +124,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-cliente-api:${{ github.ref_name }}  # Usa a tag do Git como tag da imagem
+          tags: wolwer/ms-cliente-api:${{ github.run_number }}  # Usa a tag do Git como tag da imagem
