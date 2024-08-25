@@ -3,7 +3,6 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]  # Adiciona trigger para tags de versão semântica
   pull_request:
     branches: [ main ]
 
@@ -80,26 +79,16 @@ jobs:
 
       - name: Check JaCoCo Coverage
         run: |
-          # Define the path to the JaCoCo XML report
           JACOCO_XML_PATH=target/site/jacoco/jacoco.xml
-
-          # Extract the coverage percentage
           COVERAGE=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@covered)' $JACOCO_XML_PATH)
           MISSED=$(xmllint --xpath 'string(//report/counter[@type="INSTRUCTION"]/@missed)' $JACOCO_XML_PATH)
-
-          # Calculate the coverage percentage
           TOTAL=$(echo "$COVERAGE + $MISSED" | bc)
           PERCENTAGE=$(echo "scale=2; $COVERAGE / $TOTAL * 100" | bc)
-
-          # Display the coverage percentage
           echo "Code coverage percentage: $PERCENTAGE%"
-
-          # Check if the coverage is less than 80%
           if (( $(echo "$PERCENTAGE < 80" | bc -l) )); then
             echo "Code coverage is below 80%: $PERCENTAGE%"
             exit 1
           fi
-
   deploy-to-dockerhub:
     needs: sonarcloud-analysis
     runs-on: ubuntu-latest
@@ -118,10 +107,30 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Read current version
+        id: get_version
+        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+
+      - name: Increment patch version
+        id: increment_version
+        run: |
+          VERSION=${{ env.VERSION }}
+          IFS='.' read -ra ADDR <<< "$VERSION"
+          PATCH=$((ADDR[2] + 1))
+          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$PATCH"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo $NEW_VERSION > version.txt
+        shell: bash
+
+      - name: Debugging Information
+        run: |
+          git remote -v
+          git status
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: wolwer/ms-cliente-api:${{ github.run_number }}  # Usa a tag do Git como tag da imagem
+          tags: |
+            wolwer/ms-cliente-api:${{ env.NEW_VERSION }}
