@@ -9,4 +9,5 @@ public interface IdentificarClienteInterface {
     Cliente inativarCliente(Cliente cliente);
     Cliente buscaClientePorCpf(String cpf);
     Cliente identificarCliente(Cliente cliente);
+    void ofuscarDadosSeniveis(Cliente cliente);
 }

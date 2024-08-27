@@ -50,4 +50,9 @@ public class IdentificarClienteRepository implements IdentificarClienteInterface
         cliente.setUuid(clienteModel.getUuid());
         return cliente;
     }
+
+    @Override
+    public void ofuscarDadosSeniveis(Cliente cliente) {
+        this.clienteRepository.save(new ClienteModel("**********", "***********", "**********", cliente.getUuid()));
+    }
 }

@@ -46,6 +46,7 @@ public class InativacaoClienteUseCase {
                 clienteBusca,
                 new OutputStatus(200, "Ok", "Solicitacao de inativacao realizada")
             );
+            this.idenificaCliente.ofuscarDadosSeniveis(clienteBusca);
             inativarClienteProducertInterface.send((InativacaoClienteOutput) this.inativaClienteOutput);
 
         } catch (Exception e) {
