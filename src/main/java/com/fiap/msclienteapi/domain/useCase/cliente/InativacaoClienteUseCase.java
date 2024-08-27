@@ -2,6 +2,7 @@ package com.fiap.msclienteapi.domain.useCase.cliente;
 
 import com.fiap.msclienteapi.domain.entity.cliente.Cliente;
 import com.fiap.msclienteapi.domain.gateway.cliente.IdentificarClienteInterface;
+import com.fiap.msclienteapi.domain.gateway.producers.InativarClienteProducerInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputError;
 import com.fiap.msclienteapi.domain.generic.output.OutputInterface;
 import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
@@ -13,9 +14,11 @@ import lombok.Getter;
 public class InativacaoClienteUseCase {
     private final IdentificarClienteInterface idenificaCliente;
     private OutputInterface inativaClienteOutput;
+    private InativarClienteProducerInterface inativarClienteProducertInterface;
 
-    public InativacaoClienteUseCase(IdentificarClienteInterface idenificaCliente) {
+    public InativacaoClienteUseCase(IdentificarClienteInterface idenificaCliente, InativarClienteProducerInterface inativarClienteProducertInterface) {
         this.idenificaCliente = idenificaCliente;
+        this.inativarClienteProducertInterface = inativarClienteProducertInterface;
     }
 
     public void execute(InativacaoClienteInput inativacaoClienteInput) throws Exception {
@@ -38,12 +41,12 @@ public class InativacaoClienteUseCase {
                 );
                 return;
             }
-
             this.idenificaCliente.inativarCliente(clienteBusca);
             this.inativaClienteOutput = new InativacaoClienteOutput(
                 clienteBusca,
                 new OutputStatus(200, "Ok", "Solicitacao de inativacao realizada")
             );
+            inativarClienteProducertInterface.send((InativacaoClienteOutput) this.inativaClienteOutput);
 
         } catch (Exception e) {
             this.inativaClienteOutput = new OutputError(

@@ -10,6 +10,7 @@ import com.fiap.msclienteapi.domain.output.cliente.InativacaoClienteOutput;
 import com.fiap.msclienteapi.domain.presenters.cliente.identifica.InativacaoClientePresenter;
 import com.fiap.msclienteapi.domain.useCase.cliente.InativacaoClienteUseCase;
 import com.fiap.msclienteapi.infra.adpter.repository.cliente.IdentificarClienteRepository;
+import com.fiap.msclienteapi.infra.queue.kafka.producers.InativarClienteProducer;
 import com.fiap.msclienteapi.infra.repository.ClienteInativacaoRepository;
 import com.fiap.msclienteapi.infra.repository.ClienteRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,8 @@ public class InativacaoClienteController {
             identificaClienteRequest.dadosDePagamento()
         );
         InativacaoClienteUseCase useCase = new InativacaoClienteUseCase(
-            new IdentificarClienteRepository(clienteRepository, clienteInativacaoRepository)
+            new IdentificarClienteRepository(clienteRepository, clienteInativacaoRepository),
+            new InativarClienteProducer(servers)
         );
         useCase.execute(identificaClienteInput);
 
