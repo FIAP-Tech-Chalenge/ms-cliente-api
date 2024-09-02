@@ -26,11 +26,10 @@ public class AcompanhaPedidosPresenter implements PresenterInterface{
             Map<String, Object> pedidoMap = new HashMap<>();
             pedidoMap.put("numero_pedido", pedido.getNumeroPedido());
             pedidoMap.put("status_pedido", pedido.getStatusPedido());
-            pedidoMap.put("client_uuid", pedido.getClienteUuid());
             pedidoMap.put("tempo_espera", pedido.getTempoDePreparoEmMinutos());
             produtosMapList.add(pedidoMap);
         });
-        array.put("produtos", produtosMapList);
+        array.put("pedidos", produtosMapList);
         return array;
     }
 
