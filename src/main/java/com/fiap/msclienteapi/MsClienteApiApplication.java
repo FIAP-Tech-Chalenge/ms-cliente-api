@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MsClienteApiApplication {
 
-	// private final ProdutoConsumer produtoConsumer;
+	private final ProdutoConsumer produtoConsumer;
 
 	private final EntregaConsumer entregaConsumer;
 	
@@ -19,7 +19,7 @@ public class MsClienteApiApplication {
 
 	@Autowired
 	public MsClienteApiApplication(ProdutoConsumer produtoConsumer, EntregaConsumer entregaConsumer, PedidoEmPreparoConsumer pedidoEmPreparoConsumer) {
-		// this.produtoConsumer = produtoConsumer;
+		this.produtoConsumer = produtoConsumer;
 		this.entregaConsumer = entregaConsumer;
 		this.pedidoEmPreparoConsumer = pedidoEmPreparoConsumer;
 	}
@@ -30,10 +30,10 @@ public class MsClienteApiApplication {
 
 	@PostConstruct
 	public void startConsumer() {
-		// Thread consumerThread = new Thread(produtoConsumer::runConsumer);
+		Thread consumerThread = new Thread(produtoConsumer::runConsumer);
 		Thread consumerThread2 = new Thread(entregaConsumer::runConsumer);
 		Thread consumerThread3 = new Thread(pedidoEmPreparoConsumer::runConsumer);
-		// consumerThread.start();
+		consumerThread.start();
 		consumerThread2.start();
 		consumerThread3.start();
 	}
