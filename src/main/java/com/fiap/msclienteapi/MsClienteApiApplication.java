@@ -19,7 +19,6 @@ public class MsClienteApiApplication {
 		this.produtoConsumer = produtoConsumer;
 		this.entregaConsumer = entregaConsumer;
 	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(MsClienteApiApplication.class, args);
 	}

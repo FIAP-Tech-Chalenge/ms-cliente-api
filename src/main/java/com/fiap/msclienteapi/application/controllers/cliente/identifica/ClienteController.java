@@ -39,7 +39,7 @@ public class ClienteController {
                 identificaClienteRequest.email()
         );
         IdentificarClienteUseCase useCase = new IdentificarClienteUseCase(
-                new IdentificarClienteRepository(clienteRepository),
+                new IdentificarClienteRepository(clienteRepository, null),
                 new NovoClienteProducer(servers)
         );
         useCase.execute(identificaClienteInput);
