@@ -28,7 +28,7 @@ public class PedidoTests {
     public void deveInstanciarUmPedidoDiretamente(){
         UUID pedidoUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, clienteUUID, StatusPedido.PRONTO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUUID, clienteUUID, StatusPedido.PRONTO, StatusPagamento.PAGO, 20, 10.0f);
         assertThat(pedido.getClienteUuid()).isEqualTo(clienteUUID);
         assertThat(pedido.getStatusPedido()).isEqualTo(StatusPedido.PRONTO);
         assertThat(pedido.getStatusPagamento()).isEqualTo(StatusPagamento.PAGO);

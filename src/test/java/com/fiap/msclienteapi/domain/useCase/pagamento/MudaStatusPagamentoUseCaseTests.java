@@ -45,7 +45,7 @@ public class MudaStatusPagamentoUseCaseTests {
     @Test
     public void deveAtualizarOStatusDoPagamentoDoPedido() {
         UUID pedidoUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, null, StatusPedido.PRONTO, StatusPagamento.NAO_PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUUID, null, StatusPedido.PRONTO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         try {
             when(buscaPedidoInterface.encontraPedidoPorUuid(pedidoUUID, null)).thenReturn(pedido);
             when(pedidoInterface.atualizaPagamento(any(Pedido.class), eq(StatusPagamento.PAGO)))

@@ -54,7 +54,7 @@ public class GetPedidoPresenterTests {
         List<Produto> produtos = new ArrayList<Produto>();
         produtos.add(new Produto(UUID.randomUUID(), 1, CategoriaEnum.ACOMPANHAMENTO));
 
-        Pedido pedido = new Pedido(UUID.randomUUID(), cliente.getUuid(), StatusPedido.PRONTO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(UUID.randomUUID(), cliente.getUuid(), StatusPedido.PRONTO, StatusPagamento.PAGO, 20, 10.0f);
         pedido.setProdutos(produtos);
         
         Map<String, Object> pedidoArray = new HashMap<>();

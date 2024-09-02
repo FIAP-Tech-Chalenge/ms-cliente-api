@@ -31,6 +31,7 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                     pedidoModel.getClienteId(),
                     pedidoModel.getStatusPedido(),
                     pedidoModel.getStatusPagamento(),
+                    pedidoModel.getTempoDePreparo(),
                     pedidoModel.getValorTotal()
             );
 
@@ -71,6 +72,7 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                 pedidoModel.getClienteId(),
                 pedidoModel.getStatusPedido(),
                 pedidoModel.getStatusPagamento(),
+                pedidoModel.getTempoDePreparo(),
                 pedidoModel.getValorTotal()
         );
         pedidoEntity.setProdutos(produtosList);
@@ -95,6 +97,7 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                 pedidoModel.getClienteId(),
                 pedidoModel.getStatusPedido(),
                 pedidoModel.getStatusPagamento(),
+                pedidoModel.getTempoDePreparo(),
                 pedidoModel.getValorTotal()
         );
         pedidoEntity.setUuid(pedidoModel.getUuid());

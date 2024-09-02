@@ -48,7 +48,7 @@ public class CriaPedidoUseCaseTests {
         UUID clienteUuid = UUID.randomUUID();
         UUID pedidoUuid = UUID.randomUUID();
         Cliente cliente = new Cliente("cliente", "86157833068", "cliente@cliente.com", clienteUuid);
-        Pedido pedido = new Pedido(pedidoUuid, clienteUuid, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUuid, clienteUuid, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         pedido.setProdutos(new ArrayList<>());
         List<ProdutoPedidoInput> pedidoInput = new ArrayList<>();
         pedidoInput.add(new ProdutoPedidoInput(clienteUuid, 1, CategoriaEnum.LANCHE));
@@ -96,7 +96,7 @@ public class CriaPedidoUseCaseTests {
         UUID pedidoUuid = UUID.randomUUID();
         Cliente cliente = new Cliente("cliente", "86157833068", "cliente@cliente.com", clienteUuid);
 
-        Pedido pedido = new Pedido(pedidoUuid, clienteUuid, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUuid, clienteUuid, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         pedido.setProdutos(new ArrayList<>());
         
         List<ProdutoPedidoInput> produtoList = new ArrayList<>();

@@ -32,7 +32,7 @@ public class CheckoutRepositoryTests {
         UUID pedidoUUID = UUID.randomUUID();
         Pedido pedido = new Pedido(pedidoUUID);
         pedido.setUuid(pedidoUUID);
-        PedidoModel pedidoModel = new PedidoModel(pedidoUUID, null, UUID.randomUUID(), null, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 10.0f);
+        PedidoModel pedidoModel = new PedidoModel(pedidoUUID, null, UUID.randomUUID(), null, StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         when(pedidoRepository.findByUuid(pedidoUUID)).thenReturn(pedidoModel);
         Checkout checkout = checkoutRepository.processarCheckout(pedido);
         assertThat(checkout.getUuidPedido()).isEqualTo(pedido.getUuid());

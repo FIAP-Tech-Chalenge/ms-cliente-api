@@ -29,7 +29,7 @@ public class BuscaPedidoPorUuidUseCaseTests {
     public void deveRetornarOutputComPedido() {
         UUID pedidoUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, clienteUUID, null, null, null);
+        Pedido pedido = new Pedido(pedidoUUID, clienteUUID, null, null, null, null);
         
         try {
             when(buscaPedido.encontraPedidoPorUuid(pedidoUUID, clienteUUID)).thenReturn(pedido);

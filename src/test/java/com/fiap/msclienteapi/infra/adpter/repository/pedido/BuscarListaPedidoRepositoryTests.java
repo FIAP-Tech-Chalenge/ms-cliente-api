@@ -36,7 +36,7 @@ public class BuscarListaPedidoRepositoryTests {
     @Test
     public void deveRetornarAListaDePedidos(){
         List<PedidoModel> pedidosModels = new ArrayList<>();
-        pedidosModels.add(new PedidoModel(UUID.randomUUID(), null, UUID.randomUUID(), null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 10.0F));
+        pedidosModels.add(new PedidoModel(UUID.randomUUID(), null, UUID.randomUUID(), null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 20, 10.0F));
         List<PedidoProdutoModel> pedidoProdutoModels = new ArrayList<>();
         pedidoProdutoModels.add(new PedidoProdutoModel(1l, 10.0F, 1 , CategoriaEnum.ACOMPANHAMENTO, UUID.randomUUID(), UUID.randomUUID()));
         when(pedidoRepository.findListaPedido()).thenReturn(pedidosModels);
