@@ -25,6 +25,7 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagamento;
     private List<Produto> produtos;
+    private Integer tempoDePreparoEmMinutos;
     private Float total;
 
     public Pedido(UUID clienteUuid) {
@@ -32,11 +33,12 @@ public class Pedido {
         this.produtos = new ArrayList<>();
     }
 
-    public Pedido(UUID pedidoId, UUID clienteId, StatusPedido statusPedido, StatusPagamento statusPagamento, Float valorTotal) {
+    public Pedido(UUID pedidoId, UUID clienteId, StatusPedido statusPedido, StatusPagamento statusPagamento, Integer tempoDePreparoEmMinutos, Float valorTotal) {
         this.uuid = pedidoId;
         this.clienteUuid = clienteId;
         this.statusPedido = statusPedido;
         this.statusPagamento = statusPagamento;
+        this.tempoDePreparoEmMinutos = tempoDePreparoEmMinutos;
         this.total = valorTotal;
     }
 

@@ -29,6 +29,7 @@ public class BuscarListaPedidoRepository implements BuscaListaPedidoInterface {
                     pedidoModel.getClienteId(),
                     pedidoModel.getStatusPedido(),
                     pedidoModel.getStatusPagamento(),
+                    pedidoModel.getTempoDePreparo(),
                     pedidoModel.getValorTotal()
             );
 

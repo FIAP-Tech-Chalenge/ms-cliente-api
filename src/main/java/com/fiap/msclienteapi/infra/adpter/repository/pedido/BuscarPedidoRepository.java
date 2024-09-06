@@ -31,6 +31,7 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                     pedidoModel.getClienteId(),
                     pedidoModel.getStatusPedido(),
                     pedidoModel.getStatusPagamento(),
+                    pedidoModel.getTempoDePreparo(),
                     pedidoModel.getValorTotal()
             );
 
@@ -71,6 +72,7 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                 pedidoModel.getClienteId(),
                 pedidoModel.getStatusPedido(),
                 pedidoModel.getStatusPagamento(),
+                pedidoModel.getTempoDePreparo(),
                 pedidoModel.getValorTotal()
         );
         pedidoEntity.setProdutos(produtosList);
@@ -95,11 +97,43 @@ public class BuscarPedidoRepository implements BuscaPedidoInterface {
                 pedidoModel.getClienteId(),
                 pedidoModel.getStatusPedido(),
                 pedidoModel.getStatusPagamento(),
+                pedidoModel.getTempoDePreparo(),
                 pedidoModel.getValorTotal()
         );
         pedidoEntity.setUuid(pedidoModel.getUuid());
         pedidoEntity.setStatusPedido(StatusPedido.FINALIZADO);
         pedidoEntity.setNumeroPedido(pedidoModel.getNumeroPedido());
         return pedidoEntity;
+    }
+
+    @Override
+    public List<Pedido> retornaTodosPorStatusPedido(StatusPedido statusPedido) {
+        List<PedidoModel> pedidosModels = pedidoRepository.findByStatusPedido(statusPedido);
+        List<Pedido> pedidosEntities = new ArrayList<>();
+
+        for (PedidoModel pedidoModel : pedidosModels) {
+            Pedido pedidoEntity = new Pedido(
+                    pedidoModel.getUuid(),
+                    pedidoModel.getClienteId(),
+                    pedidoModel.getStatusPedido(),
+                    pedidoModel.getStatusPagamento(),
+                    pedidoModel.getTempoDePreparo(),
+                    pedidoModel.getValorTotal()
+            );
+
+            List<PedidoProdutoModel> pedidosDoProduto = pedidoProdutoRepository.findPedidoProdutoModelsByPedidoUuid(pedidoModel.getUuid());
+            List<Produto> produtosList = new ArrayList<>();
+            for (PedidoProdutoModel pedidoProdutoModel : pedidosDoProduto) {
+                Produto produtoEntity = new Produto(pedidoProdutoModel.getPedidoUuid(), pedidoProdutoModel.getQuantidade(), pedidoProdutoModel.getCategoria());
+                produtoEntity.setValor(pedidoProdutoModel.getValor());
+                produtosList.add(produtoEntity);
+            }
+            pedidoEntity.setProdutos(produtosList);
+
+            pedidoEntity.setUuid(pedidoModel.getUuid());
+            pedidoEntity.setNumeroPedido(pedidoModel.getNumeroPedido());
+            pedidosEntities.add(pedidoEntity);
+        }
+        return pedidosEntities;
     }
 }

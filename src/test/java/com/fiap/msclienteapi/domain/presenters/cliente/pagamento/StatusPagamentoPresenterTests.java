@@ -41,7 +41,7 @@ public class StatusPagamentoPresenterTests {
     @Test
     public void deveObterUmArray() {
         OutputStatus outputStatus = new OutputStatus(200, "Ok", "ok");
-        Pedido pedido = new Pedido(UUID.randomUUID(), UUID.randomUUID(), StatusPedido.PRONTO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(UUID.randomUUID(), UUID.randomUUID(), StatusPedido.PRONTO, StatusPagamento.PAGO, 20, 10.0f);
         StatusPagamentoOutput statusPagamentoOutput = new StatusPagamentoOutput(pedido, outputStatus);
         StatusPagamentoPresenter statusPagamentoPresenter = new StatusPagamentoPresenter(statusPagamentoOutput);
 

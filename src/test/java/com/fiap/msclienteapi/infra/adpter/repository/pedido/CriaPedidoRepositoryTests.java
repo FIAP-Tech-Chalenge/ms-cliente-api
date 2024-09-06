@@ -45,9 +45,9 @@ public class CriaPedidoRepositoryTests {
     public void deveRetornarUmPedidoJaExistente(){
         UUID pedidoUUID = UUID.randomUUID();
         UUID produtoModelUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO,20,10.0f);
         pedido.setProdutos(new ArrayList<>());
-        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTotal());
+        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTempoDePreparoEmMinutos(), pedido.getTotal());
         Produto produtoPedido =  new Produto(produtoModelUUID, 1, CategoriaEnum.ACOMPANHAMENTO);
         produtoPedido.setValor(10.0f);
         pedido.addProduto(produtoPedido);
@@ -68,9 +68,9 @@ public class CriaPedidoRepositoryTests {
     public void deveCriarUmPedidoCasoNaoExista(){
         UUID pedidoUUID = UUID.randomUUID();
         UUID produtoModelUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO, 20, 10.0f);
         pedido.setProdutos(new ArrayList<>());
-        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTotal());
+        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTempoDePreparoEmMinutos(), pedido.getTotal());
         Produto produtoPedido =  new Produto(produtoModelUUID, 1, CategoriaEnum.ACOMPANHAMENTO);
         produtoPedido.setValor(10.0f);
         pedido.addProduto(produtoPedido);
@@ -93,9 +93,9 @@ public class CriaPedidoRepositoryTests {
     public void deveGerarExcecao_ProdutoNaoTiverEstoqueSuficiente_ProdutoNaoEncontradoException(){
         UUID pedidoUUID = UUID.randomUUID();
         UUID produtoModelUUID = UUID.randomUUID();
-        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO, 10.0f);
+        Pedido pedido = new Pedido(pedidoUUID, UUID.randomUUID(), StatusPedido.EM_PREPARACAO, StatusPagamento.PAGO, 20, 10.0f);
         pedido.setProdutos(new ArrayList<>());
-        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTotal());
+        PedidoModel pedidoModel = new PedidoModel(pedido.getUuid(), 1l, pedido.getClienteUuid(), new Date(), pedido.getStatusPedido(), pedido.getStatusPagamento(), pedido.getTempoDePreparoEmMinutos(), pedido.getTotal());
         Produto produtoPedido =  new Produto(produtoModelUUID, 1, CategoriaEnum.ACOMPANHAMENTO);
         produtoPedido.setValor(10.0f);
         pedido.addProduto(produtoPedido);
@@ -116,8 +116,8 @@ public class CriaPedidoRepositoryTests {
     @Test
     public void deveAtualizarOStatusDoPagamento(){
         UUID pedidoUuid = UUID.randomUUID();
-        PedidoModel pedidoModel = new PedidoModel(pedidoUuid, null, null, null, null, null, null);
-        Pedido pedido = new Pedido(pedidoUuid, UUID.randomUUID(), StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 10.0f);
+        PedidoModel pedidoModel = new PedidoModel(pedidoUuid, null, null, null, null, null ,0, null);
+        Pedido pedido = new Pedido(pedidoUuid, UUID.randomUUID(), StatusPedido.RECEBIDO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         
         when(pedidoRepository.findByUuid(pedido.getUuid())).thenReturn(pedidoModel);
         Pedido pedidoComStatusNovo = criaPedidoRepository.atualizaPagamento(pedido, StatusPagamento.PAGO);

@@ -37,7 +37,7 @@ public class BuscarPedidoRepositoryTests {
     @Test
     public void deveRetornarTodosOsPedidos(){
         List<PedidoModel> pedidosModels = new ArrayList<>();
-        pedidosModels.add(new PedidoModel(UUID.randomUUID(), null, UUID.randomUUID(), null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 10.0F));
+        pedidosModels.add(new PedidoModel(UUID.randomUUID(), null, UUID.randomUUID(), null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 20, 10.0F));
         List<PedidoProdutoModel> pedidoProdutoModels = new ArrayList<>();
         pedidoProdutoModels.add(new PedidoProdutoModel(1l, 10.0F, 1 , CategoriaEnum.ACOMPANHAMENTO, UUID.randomUUID(), UUID.randomUUID()));
         when(pedidoRepository.findAll()).thenReturn(pedidosModels);
@@ -51,7 +51,7 @@ public class BuscarPedidoRepositoryTests {
     public void deveRetornarUmPedidoViaUUID(){
         UUID pedidoModelUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
-        PedidoModel pedidoModel = new PedidoModel(pedidoModelUUID, 10l, clienteUUID, null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 10.0f);
+        PedidoModel pedidoModel = new PedidoModel(pedidoModelUUID, 10l, clienteUUID, null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         List<PedidoProdutoModel> pedidoProdutoModels = new ArrayList<>();
         pedidoProdutoModels.add(new PedidoProdutoModel(1l, 10.0F, 1 , CategoriaEnum.ACOMPANHAMENTO, UUID.randomUUID(), UUID.randomUUID()));
         
@@ -78,7 +78,7 @@ public class BuscarPedidoRepositoryTests {
     public void deveRetornarNullCasoPedidoEncontradoNaoCorrespondaAoPedidoDoCliente(){
         UUID pedidoModelUUID = UUID.randomUUID();
         UUID clienteUUID = UUID.randomUUID();
-        PedidoModel pedidoModel = new PedidoModel(pedidoModelUUID, 10l, clienteUUID, null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 10.0f);
+        PedidoModel pedidoModel = new PedidoModel(pedidoModelUUID, 10l, clienteUUID, null, StatusPedido.EM_PREPARACAO, StatusPagamento.NAO_PAGO, 20, 10.0f);
         
         when(pedidoRepository.findByUuid(pedidoModelUUID)).thenReturn(pedidoModel);
         Pedido pedidoEncontrado = buscarPedidoRepository.encontraPedidoPorUuid(pedidoModelUUID, UUID.randomUUID());
