@@ -15,4 +15,8 @@ public class KafkaConsumerResolver {
     public String getPedidoConsumer() {
         return KafkaTopicsEnum.pedido.name();
     }
+
+    public String getTempoDeEsperaConsumer() {
+        return KafkaTopicsEnum.tempo_de_espera.name();
+    }
 }

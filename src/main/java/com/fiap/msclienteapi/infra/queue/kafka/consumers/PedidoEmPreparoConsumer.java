@@ -26,7 +26,7 @@ public class PedidoEmPreparoConsumer {
     public PedidoEmPreparoConsumer(Properties kafkaConsumerProperties,
                            PedidoRepository pedidoRepository) {
         this.consumer = new KafkaConsumer<>(kafkaConsumerProperties);
-        this.consumer.subscribe(Collections.singletonList(new KafkaConsumerResolver().getPedidoConsumer()));
+        this.consumer.subscribe(Collections.singletonList(new KafkaConsumerResolver().getTempoDeEsperaConsumer()));
         this.objectMapper = new ObjectMapper();
         this.pedidoRepository = pedidoRepository;
     }
