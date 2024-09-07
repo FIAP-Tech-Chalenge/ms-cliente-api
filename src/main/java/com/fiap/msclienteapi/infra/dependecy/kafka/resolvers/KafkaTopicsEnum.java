@@ -6,5 +6,6 @@ public enum KafkaTopicsEnum {
     clienteInativo,
     produto,
     pedido,
-    entrega
+    entrega,
+    tempo_de_espera
 }
