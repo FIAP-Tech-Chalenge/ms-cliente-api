@@ -24,6 +24,7 @@ public class AcompanhaPedidosPresenter implements PresenterInterface{
         List<Map<String, Object>> produtosMapList = new ArrayList<>();
         pedidos.stream().forEach(pedido -> {
             Map<String, Object> pedidoMap = new HashMap<>();
+            pedidoMap.put("pedido_uuid", pedido.getUuid());
             pedidoMap.put("numero_pedido", pedido.getNumeroPedido());
             pedidoMap.put("status_pedido", pedido.getStatusPedido());
             pedidoMap.put("tempo_espera", pedido.getTempoDePreparoEmMinutos());
