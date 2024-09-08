@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
     statusPedido VARCHAR(255) NOT NULL,
     statusPagamento VARCHAR(255) NOT NULL,
     valorTotal NUMERIC(10, 2) NOT NULL,
+    tempo_preparo INT NOT NULL DEFAULT 0,
     FOREIGN KEY (clienteid) REFERENCES clientes(uuid)
     );
 DELETE FROM pedidos;
