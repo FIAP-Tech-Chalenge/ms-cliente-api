@@ -9,6 +9,7 @@ import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
 import com.fiap.msclienteapi.domain.input.cliente.InativacaoClienteInput;
 import com.fiap.msclienteapi.domain.output.cliente.InativacaoClienteOutput;
 import lombok.Getter;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 public class InativacaoClienteUseCase {
@@ -21,6 +22,7 @@ public class InativacaoClienteUseCase {
         this.inativarClienteProducertInterface = inativarClienteProducertInterface;
     }
 
+    @Transactional
     public void execute(InativacaoClienteInput inativacaoClienteInput) throws Exception {
         Cliente cliente = new Cliente(
             inativacaoClienteInput.getNome(),

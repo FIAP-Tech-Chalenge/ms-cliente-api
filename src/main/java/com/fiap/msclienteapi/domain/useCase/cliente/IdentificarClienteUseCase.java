@@ -14,6 +14,7 @@ import com.fiap.msclienteapi.domain.input.cliente.IdentificaClienteInput;
 import com.fiap.msclienteapi.domain.output.cliente.IdentificaClienteOutput;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class IdentificarClienteUseCase {
     private final NovoClienteProducertInterface novoClienteProducertInterface;
     private OutputInterface identificaClienteOutput;
 
+    @Transactional
     public void execute(IdentificaClienteInput identificaClienteInput) throws Exception {
         Cliente cliente = new Cliente(
                 identificaClienteInput.getNome(),

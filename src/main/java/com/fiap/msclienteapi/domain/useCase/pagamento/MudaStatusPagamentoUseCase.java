@@ -12,6 +12,7 @@ import com.fiap.msclienteapi.domain.generic.output.OutputStatus;
 import com.fiap.msclienteapi.domain.output.pagamento.StatusPagamentoOutput;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class MudaStatusPagamentoUseCase {
         this.pedidoInterface = pedidoInterface;
     }
 
+    @Transactional
     public void execute(UUID uuid, StatusPagamento statusPagamento) {
         try {
             Pedido pedidoEntity = this.buscaPedido.encontraPedidoPorUuid(uuid, null);

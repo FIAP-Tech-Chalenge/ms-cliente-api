@@ -20,6 +20,7 @@ import com.fiap.msclienteapi.domain.gateway.pedido.PedidoInterface;
 import com.fiap.msclienteapi.domain.gateway.produto.BuscaProdutoInterface;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class CriaPedidoUseCase {
     private final BuscaProdutoInterface produtoInterface;
     private OutputInterface criaPedidoOutput;
 
+    @Transactional
     public void execute(CriarPedidoInput criarPedidoInput) {
         try {
             Cliente clienteEntity = clienteInterface.buscaClientePorUuid(criarPedidoInput.clienteUuid());

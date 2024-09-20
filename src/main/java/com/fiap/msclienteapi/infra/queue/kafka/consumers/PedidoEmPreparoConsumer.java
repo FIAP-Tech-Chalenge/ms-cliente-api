@@ -9,6 +9,8 @@ import com.fiap.msclienteapi.infra.repository.PedidoRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -22,6 +24,7 @@ public class PedidoEmPreparoConsumer {
     private final KafkaConsumer<String, String> consumer;
     private final ObjectMapper objectMapper;
     private final PedidoRepository pedidoRepository;
+    private final Logger logger = LoggerFactory.getLogger(PedidoEmPreparoConsumer.class);
     
     public PedidoEmPreparoConsumer(Properties kafkaConsumerProperties,
                            PedidoRepository pedidoRepository) {
@@ -36,7 +39,7 @@ public class PedidoEmPreparoConsumer {
             while (!Thread.currentThread().isInterrupted()) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
-                    System.out.printf("Mensagem recebida - Tópico: %s, Chave: %s, Valor: %s%n", record.topic(), record.key(), record.value());
+                    logger.info("Mensagem recebida - Tópico: {}, Chave: {}, Valor: {}", record.topic(), record.key(), record.value());
                     try {
                         JsonNode messageJson = objectMapper.readTree(record.value());
                         String uuid = messageJson.get("uuid_pedido").asText();
@@ -53,17 +56,17 @@ public class PedidoEmPreparoConsumer {
 
                             pedidoRepository.save(pedidoModel);
                         }else {
-                            System.err.println("Pedido não encontrado: " + uuid);
+                            logger.error("Pedido não encontrado: {}", uuid);
                         }
 
                     } catch (Exception e) {
-                        System.err.println("Erro ao processar a mensagem: " + e.getMessage());
+                        logger.error("Erro ao processar a mensagem: {}", e.getMessage());
                     }
                 }
             }
         } finally {
             this.consumer.close();
-            System.out.println("Consumidor Kafka fechado.");
+            logger.info("Consumidor Kafka fechado.");
         }
     }
 

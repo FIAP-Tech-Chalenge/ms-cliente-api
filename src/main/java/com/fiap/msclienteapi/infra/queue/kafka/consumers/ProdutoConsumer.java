@@ -9,6 +9,8 @@ import com.fiap.msclienteapi.infra.repository.ProdutoRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -23,6 +25,7 @@ public class ProdutoConsumer {
     private final KafkaConsumer<String, String> consumer;
     private final ObjectMapper objectMapper;
     private final ProdutoRepository produtoRepository;
+    private final Logger logger = LoggerFactory.getLogger(ProdutoConsumer.class);
 
     public ProdutoConsumer(Properties kafkaConsumerProperties,
                            ProdutoRepository produtoRepository) {
@@ -37,7 +40,7 @@ public class ProdutoConsumer {
             while (!Thread.currentThread().isInterrupted()) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 for (ConsumerRecord<String, String> record : records) {
-                    System.out.printf("Mensagem recebida - Tópico: %s, Chave: %s, Valor: %s%n", record.topic(), record.key(), record.value());
+                    logger.info("Mensagem recebida - Tópico: {}, Chave: {}, Valor: {}", record.topic(), record.key(), record.value());
                     try {
                         JsonNode messageJson = objectMapper.readTree(record.value());
                         String uuid = messageJson.get("produto_uuid").asText();
@@ -56,13 +59,13 @@ public class ProdutoConsumer {
                         produtoModel.setQuantidade(quantidade);
                         produtoRepository.save(produtoModel);
                     } catch (Exception e) {
-                        System.err.println("Erro ao processar a mensagem: " + e.getMessage());
+                        logger.error("Erro ao processar a mensagem: {}", e.getMessage());
                     }
                 }
             }
         } finally {
             this.consumer.close();
-            System.out.println("Consumidor Kafka fechado.");
+            logger.info("Consumidor Kafka fechado.");
         }
     }
 }

@@ -13,6 +13,7 @@ import com.fiap.msclienteapi.domain.output.pedido.CheckOutOutput;
 import com.fiap.msclienteapi.infra.adpter.repository.pedido.BuscarPedidoRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class ProcessaCheckoutUseCase {
     private final PagamentoQrCodeInterface pagamentoQrCodeInterface;
     private OutputInterface checkoutOutput;
 
+    @Transactional
     public void execute(UUID pedidoUuid) {
         try {
             Pedido pedido = buscarPedidoRepository.encontraPedidoPorUuid(pedidoUuid, null);
